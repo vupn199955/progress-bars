@@ -11,12 +11,26 @@ const ELEMENT_IDS = {
 const SELECT_BAR_elm = document.getElementById(ELEMENT_IDS.SELECT_BAR);
 
 SELECT_BAR_elm.addEventListener('change', (e) => {
+  setBarDeactive();
   if (e.target.value === "0") {
     CURRENT_BAR = null;
     return;
   };
   CURRENT_BAR = e.target.value;
+  setBarActive();
 })
+
+const setBarActive = () => {
+  const progressBar = document.getElementById(CURRENT_BAR);
+  progressBar.classList.add('bg-warning');
+}
+
+const setBarDeactive = () => {
+  const progressBar = document.getElementById(CURRENT_BAR);
+  if (progressBar) {
+    progressBar.classList.remove('bg-warning');
+  }
+}
 
 const makeRequest = (method, url) => {
   return new Promise(function (resolve, reject) {
@@ -66,11 +80,9 @@ const setBarValue = (value, id) => {
   }
 
   if (newValue > LIMIT) {
-    progressBar.classList.remove('bg-success');
     progressBar.classList.add('bg-danger');
   } else {
     progressBar.classList.remove('bg-danger');
-    progressBar.classList.add('bg-success');
   }
 
   progressBar.setAttribute('style', `width: ${width}%`);
@@ -81,7 +93,6 @@ const setBarValue = (value, id) => {
 const generateBars = (bars = []) => {
   const createProgressBarElm = (value, index) => {
     const id = `progress-${index + 1}`;
-
     const option = document.createElement('option');
     const progressBar = document.createElement('div');
     const progressBarContainer = document.createElement('div');
@@ -92,7 +103,7 @@ const generateBars = (bars = []) => {
     SELECT_BAR_elm.append(option);
 
     progressBar.setAttribute('id', id);
-    progressBar.setAttribute('class', 'progress-bar bg-success');
+    progressBar.setAttribute('class', 'progress-bar bg-info');
     progressBar.setAttribute('role', 'progressbar');
     progressBar.setAttribute('aria-valuemin', 0);
     progressBar.setAttribute('aria-valuemax', LIMIT);
@@ -105,6 +116,7 @@ const generateBars = (bars = []) => {
 
     return progressBarContainer;
   }
+
   SELECT_BAR_elm.removeAttribute('hidden');
   const progressBarContainer = document.getElementById(ELEMENT_IDS.PROGRESS_BARS);
   bars.forEach((value, index) => {
@@ -116,10 +128,12 @@ const generateBtn = (btns = []) => {
   const createBtn = (value) => {
     const btn = document.createElement('button');
     btn.innerHTML = value > 0 ? `+${value}` : value;
+    btn.setAttribute('class', 'btn btn-info m-1');
+
     btn.addEventListener('click', () => {
       setBarValue(value, CURRENT_BAR)
     })
-    btn.setAttribute('class', 'btn m-1');
+  
     return btn;
   }
 
