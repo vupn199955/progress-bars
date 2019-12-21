@@ -1,0 +1,12 @@
+@import './bootstrap.css';
+@import './bootstrap-grid.css';
+body {
+  height: 100vh;
+}
+.select-bar {
+  width: auto;
+  display: inline-flex;
+}
+#btn-container {
+  display: inline-flex;
+}
