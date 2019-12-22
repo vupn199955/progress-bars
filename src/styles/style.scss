@@ -2,6 +2,7 @@
 @import './bootstrap-grid.scss';
 body {
   height: 100vh;
+  background-color: var(--dark);
 }
 .select-bar {
   width: auto;
