@@ -1,4 +1,5 @@
 import './styles/style.scss';
+import { getData } from './http';
 
 let CURRENT_BAR;
 let LIMIT = 100;
@@ -32,35 +33,6 @@ SELECT_BAR_elm.addEventListener('change', (e) => {
   CURRENT_BAR = e.target.value;
   setBarActive();
 });
-
-const makeRequest = (method, url) => new Promise(((resolve, reject) => {
-  try {
-    const xhr = new XMLHttpRequest();
-    xhr.open(method, url);
-    xhr.onload = function () {
-      if (this.status >= 200 && this.status < 300) {
-        resolve(JSON.parse(xhr.response));
-      } else {
-        reject({
-          status: this.status,
-          statusText: xhr.statusText,
-        });
-      }
-    };
-    xhr.onerror = function () {
-      reject({
-        status: this.status,
-        statusText: xhr.statusText,
-      });
-    };
-    xhr.send();
-  } catch (err) {
-    reject({
-      status: 500,
-      statusText: err,
-    });
-  }
-}));
 
 const setBarValue = (value, id) => {
   const progressBar = document.getElementById(id);
@@ -145,15 +117,11 @@ const setLimitValue = (value) => {
   limitElm.innerHTML = value;
 };
 
-const getData = () => {
-  makeRequest('GET', 'http://pb-api.herokuapp.com/bars').then((data) => {
-    const buttons = data.buttons.sort();
-    setLimitValue(data.limit);
-    generateBars(data.bars);
-    generateBtn(buttons);
-  }).catch(() => {
-    alert('Server error!');
-  });
-};
-
-getData();
+getData().then((data) => {
+  const buttons = data.buttons.sort();
+  setLimitValue(data.limit);
+  generateBars(data.bars);
+  generateBtn(buttons);
+}).catch(() => {
+  alert('Server error!');
+});
