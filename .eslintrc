@@ -1,0 +1,14 @@
+{
+  "env": {
+    "browser": 1,
+    "node": true,
+    "es6": true
+  },
+  "parser": "babel-eslint",
+  "extends": [
+      "eslint:recommended"
+  ],
+  "rules": {
+    "no-console": 1
+  }
+}
