@@ -1,8 +1,5 @@
 {
   "name": "progress-bars",
-  "jest": {
-    "verbose": true
-  },
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -33,7 +30,9 @@
     "webpack-dev-middleware": "^3.7.2"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "jest-puppeteer": "^4.4.0",
+    "puppeteer": "^2.1.1"
   },
   "main": "bundle.js",
   "description": ""
